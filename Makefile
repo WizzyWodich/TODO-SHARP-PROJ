@@ -21,4 +21,4 @@ env-cleanup:
 env-migration:
 	@dotnet ef database update \
 		--project backend/Todo.Infrastructure.PostgreSQL \
-		--startup-project backend/Todo.Core
+		--startup-project backend/Todo.Core/Data
