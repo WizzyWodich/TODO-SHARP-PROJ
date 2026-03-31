@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Swagger;
 using Todo.Core.EndpointSettings;
 
 namespace Todo.Core.Extentions;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 
 public static class BuilderExtention
 {
@@ -20,43 +17,28 @@ public static class BuilderExtention
 
         builder.Services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
+            options.SwaggerDoc("v1", new Info
             {
                 Title = "TODO Sharp API",
                 Version = "v1",
                 Description = "API для управления задачами",
-                Contact = new OpenApiContact
+                Contact = new Contact
                 {
                     Name = "TODO Sharp Team",
                     Email = "support@todosharp.com"
                 },
-                License = new OpenApiLicense
+                License = new License
                 {
                     Name = "MIT"
                 }
             });
 
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            options.AddSecurityDefinition("Bearer", new ApiKeyScheme
             {
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
+                Type = "apiKey",
+                Name = "Authorization",
+                In = "header",
                 Description = "JWT Authorization header"
-            });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] { }
-                }
             });
         });
 
@@ -87,12 +69,6 @@ public static class BuilderExtention
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "TODO Sharp API v1");
                 options.RoutePrefix = string.Empty;
-                options.DocumentTitle = "TODO Sharp API Documentation";
-                options.DefaultModelsExpandDepth(2);
-                options.DefaultModelExpandDepth(2);
-                options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
-                options.EnableDeepLinking();
-                options.ShowExtensions();
             });
         }
 
