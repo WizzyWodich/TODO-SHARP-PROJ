@@ -1,7 +1,6 @@
-namespace Todo.Core.Extentions;
-
 using Microsoft.AspNetCore.Builder;
-using Todo.Core.EndpointSettings;
+
+namespace Todo.Core.Extentions;
 
 public static class Applicationextentions
 {
@@ -10,14 +9,17 @@ public static class Applicationextentions
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "TODO Sharp API v1");
+                options.RoutePrefix = string.Empty;
+            });
         }
 
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
         app.UseAuthorization();
-        
-        // Регистрируем все эндпоинты
+
         app.MapEndpoints();
         app.MapControllers();
 

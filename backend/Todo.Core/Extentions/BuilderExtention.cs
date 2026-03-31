@@ -1,9 +1,12 @@
-namespace Todo.Core.Extentions;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Todo.Core.EndpointSettings;
+
+namespace Todo.Core.Extentions;
+
+
 
 public static class BuilderExtention
 {
@@ -11,7 +14,7 @@ public static class BuilderExtention
     {
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        
+
         builder.Services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
@@ -53,7 +56,7 @@ public static class BuilderExtention
                 }
             });
         });
-        
+
         return builder;
     }
 
@@ -102,12 +105,26 @@ public static class BuilderExtention
     {
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
-        
+
         if (builder.Environment.IsDevelopment())
         {
             builder.Logging.AddDebug();
         }
 
         return builder;
+    }
+
+    public static IApplicationBuilder MapEndpoints(this WebApplication app)
+    {
+        var endpointTypes = typeof(Program).Assembly.GetTypes()
+            .Where(t => typeof(IEndpoint).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+        foreach (var endpointType in endpointTypes)
+        {
+            var endpoint = Activator.CreateInstance(endpointType) as IEndpoint;
+            endpoint?.MapEndpoint(app);
+        }
+
+        return app;
     }
 }
