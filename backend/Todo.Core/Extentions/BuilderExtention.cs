@@ -6,7 +6,10 @@ using Todo.Core.EndpointSettings;
 
 namespace Todo.Core.Extentions;
 
-
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 public static class BuilderExtention
 {
