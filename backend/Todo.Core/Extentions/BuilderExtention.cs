@@ -1,12 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using Todo.Core.EndpointSettings;
 
 namespace Todo.Core.Extentions;
-
 
 public static class BuilderExtention
 {
@@ -14,30 +9,29 @@ public static class BuilderExtention
     {
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-
         builder.Services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new Info
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "TODO Sharp API",
                 Version = "v1",
                 Description = "API для управления задачами",
-                Contact = new Contact
+                Contact = new OpenApiContact
                 {
                     Name = "TODO Sharp Team",
                     Email = "support@todosharp.com"
                 },
-                License = new License
+                License = new OpenApiLicense
                 {
                     Name = "MIT"
                 }
             });
 
-            options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Type = "apiKey",
+                Type = SecuritySchemeType.ApiKey,
                 Name = "Authorization",
-                In = "header",
+                In = ParameterLocation.Header,
                 Description = "JWT Authorization header"
             });
         });
@@ -52,32 +46,12 @@ public static class BuilderExtention
             options.AddPolicy(policyName, policy =>
             {
                 policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
             });
         });
 
         return builder;
-    }
-
-    public static WebApplication UseApplicationMiddleware(this WebApplication app, string corsPolicyName = "AllowAll")
-    {
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "TODO Sharp API v1");
-                options.RoutePrefix = string.Empty;
-            });
-        }
-
-        app.UseHttpsRedirection();
-        app.UseCors(corsPolicyName);
-        app.UseAuthorization();
-        app.MapControllers();
-
-        return app;
     }
 
     public static WebApplicationBuilder AddApplicationLogging(this WebApplicationBuilder builder)

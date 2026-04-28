@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+using Todo.Core.EndpointSettings;
 
 namespace Todo.Core.Extentions;
 
@@ -19,7 +19,6 @@ public static class Applicationextentions
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
         app.UseAuthorization();
-
         app.MapEndpoints();
         app.MapControllers();
 
