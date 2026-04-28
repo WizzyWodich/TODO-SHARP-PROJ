@@ -3,6 +3,8 @@ export
 
 export PROJECT_ROOT=$(shell pwd)
 
+run:
+	@cd backend && dotnet run --project Todo.Core/Todo.Core.csproj
 
 env-up:
 	@docker compose up -d todo-database-postgre
