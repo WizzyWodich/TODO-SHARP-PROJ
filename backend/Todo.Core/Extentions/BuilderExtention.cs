@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Todo.Core.EndpointSettings;
+using Todo.Infrastructure.PostgreSQL.Data;
 
 namespace Todo.Core.Extentions;
 
@@ -64,6 +66,13 @@ public static class BuilderExtention
             builder.Logging.AddDebug();
         }
 
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
         return builder;
     }
 

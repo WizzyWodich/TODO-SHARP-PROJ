@@ -21,6 +21,11 @@ env-cleanup:
 		echo "Files removed cancle"; \
 	fi
 env-migration:
+	@dotnet ef migrations add InitialCreate \
+		--project backend/Todo.Infrastructure.PostgreSQL \
+		--startup-project backend/Todo.Core
+		
+db-update:
 	@dotnet ef database update \
 		--project backend/Todo.Infrastructure.PostgreSQL \
-		--startup-project backend/Todo.Core/Data
+		--startup-project backend/Todo.Core
