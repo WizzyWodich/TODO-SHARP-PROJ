@@ -18,6 +18,7 @@ public static class Applicationextentions
 
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapEndpoints();
         app.MapControllers();
