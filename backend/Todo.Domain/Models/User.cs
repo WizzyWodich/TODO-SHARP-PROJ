@@ -1,20 +1,28 @@
-public sealed class User
+namespace Todo.Domain.Models;
+
+public sealed class UserModel
 {
+    private UserModel() { } 
     public Guid Id { get; private set; }
     public string UserName { get; private set; }
     public string PasswordHash { get; private set; }
     public string? Email { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public User(string userName, string passwordHash, string? email)
+    public static UserModel Create(string userName, string passwordHash, string? email)
     {
-        Id = Guid.NewGuid();
-        UserName = userName;
-        PasswordHash = passwordHash;
-        Email = email;
-    }
-}
+        if (string.IsNullOrWhiteSpace(userName))
+            throw new ArgumentException("Username cannot be empty", nameof(userName));
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new ArgumentException("PasswordHash cannot be empty", nameof(passwordHash));
 
-public sealed class Todo
-{
-    
+        return new UserModel
+        {
+            Id = Guid.NewGuid(),
+            UserName = userName,
+            PasswordHash = passwordHash,
+            Email = email,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
 }
