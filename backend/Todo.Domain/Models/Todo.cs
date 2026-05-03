@@ -5,14 +5,16 @@ public sealed class TodoModel
     public Guid UserId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public bool IsCompleted { get; private set; }
+    public  TodoPriority Priority { get; private set; }
+    public bool IsCompleted => ConfirmedAt.HasValue;
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public DateTime? ConfirmedAt { get; private set; }
+    public DateTime? DueAt { get; private set; }
 
-    public TodoModel() { }
+    private TodoModel() { }
     
-    public static TodoModel Create(Guid userId, string title, string description)
+    public static TodoModel Create(Guid userId, string title, string description, TodoPriority priority = TodoPriority.Low, DateTime? dueAt = null)
     {
         if (userId == Guid.Empty) 
             throw new ArgumentException("UserId cannot be empty", nameof(userId));
@@ -25,6 +27,7 @@ public sealed class TodoModel
             UserId = userId,
             Title = title,
             Description = description,
+            Priority = priority,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -33,7 +36,6 @@ public sealed class TodoModel
     public void Complete()
     {
         if (IsCompleted) throw new InvalidOperationException("Todo is already completed");
-        IsCompleted = true;
         ConfirmedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -43,6 +45,11 @@ public sealed class TodoModel
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Title cannot be empty", nameof(title));
         Title = title;
+        UpdatedAt = DateTime.UtcNow;
+    }
+    public void SetDueDate(DateTime? dueAt)
+    {
+        DueAt = dueAt;
         UpdatedAt = DateTime.UtcNow;
     }
 }
