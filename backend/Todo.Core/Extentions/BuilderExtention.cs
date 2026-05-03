@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Todo.Core.Endpoints.Auth.Login;
 using Todo.Core.Endpoints.Auth.Register;
+using Todo.Core.Endpoints.Todos.Complete;
 using Todo.Core.Endpoints.Todos.Create;
+using Todo.Core.Endpoints.Todos.Delete;
 using Todo.Core.Endpoints.Todos.GetAll;
 using Todo.Core.EndpointSettings;
 using Todo.Domain.Repositories;
@@ -58,6 +60,9 @@ public static class BuilderExtention
         builder.Services.AddScoped<ITodoRepository, TodoRepository>();
         builder.Services.AddScoped<CreateTodoHandler>();
         builder.Services.AddScoped<GetAllTodosHandler>();
+        builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+        builder.Services.AddScoped<DeleteTodoHandler>();
+        builder.Services.AddScoped<CompleteTodoHandler>();
         
         return builder;
     }

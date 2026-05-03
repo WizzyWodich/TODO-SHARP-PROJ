@@ -22,4 +22,19 @@ public sealed class TodoRepository : ITodoRepository
             .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync(ct);
+    
+    public async Task<TodoModel?> GetByIdAsync(Guid id, CancellationToken ct)
+        => await _db.Todos.FirstOrDefaultAsync(t => t.Id == id, ct);
+
+    public async Task UpdateAsync(TodoModel todo, CancellationToken ct)
+    {
+        _db.Todos.Update(todo);
+        await _db.SaveChangesAsync(ct);
+    }
+
+    public async Task DeleteAsync(TodoModel todo, CancellationToken ct)
+    {
+        _db.Todos.Remove(todo);
+        await _db.SaveChangesAsync(ct);
+    }
 }
