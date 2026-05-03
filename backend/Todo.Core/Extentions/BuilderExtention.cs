@@ -69,6 +69,7 @@ public static class BuilderExtention
         return builder;
     }
 
+
     public static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AppDbContext>(options =>
