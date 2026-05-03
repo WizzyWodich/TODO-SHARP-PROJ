@@ -3,8 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Todo.Core.Endpoints.Auth.Login;
+using Todo.Core.Endpoints.Auth.Register;
 using Todo.Core.EndpointSettings;
+using Todo.Domain.Repositories;
 using Todo.Infrastructure.PostgreSQL.Data;
+using Todo.Infrastructure.PostgreSQL.Repositories;
 
 namespace Todo.Core.Extentions;
 
@@ -44,15 +48,24 @@ public static class BuilderExtention
         return builder;
     }
 
+    public static WebApplicationBuilder AddDependencyInjection(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<RegisterHandler>();
+        builder.Services.AddScoped<LoginHandler>();
+        return builder;
+    }
+    
     public static WebApplicationBuilder AddCorsPolicy(this WebApplicationBuilder builder, string policyName = "AllowAll")
     {
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(policyName, policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.WithOrigins("http://localhost:3000")
                       .AllowAnyMethod()
-                      .AllowAnyHeader();
+                      .AllowAnyHeader()
+                      .AllowCredentials();
             });
         });
 
@@ -100,6 +113,14 @@ public static class BuilderExtention
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx =>
+                    {
+                        ctx.Token = ctx.Request.Cookies["access_token"];
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
