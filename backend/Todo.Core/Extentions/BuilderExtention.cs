@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Todo.Core.Endpoints.Auth.Login;
 using Todo.Core.Endpoints.Auth.Register;
+using Todo.Core.Endpoints.Todos.Create;
+using Todo.Core.Endpoints.Todos.GetAll;
 using Todo.Core.EndpointSettings;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.PostgreSQL.Data;
@@ -53,6 +55,10 @@ public static class BuilderExtention
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<RegisterHandler>();
         builder.Services.AddScoped<LoginHandler>();
+        builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+        builder.Services.AddScoped<CreateTodoHandler>();
+        builder.Services.AddScoped<GetAllTodosHandler>();
+        
         return builder;
     }
     
