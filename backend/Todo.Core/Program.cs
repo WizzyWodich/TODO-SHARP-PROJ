@@ -6,7 +6,8 @@ builder
     .AddApplicationServices()
     .AddCorsPolicy("AllowAll")
     .AddApplicationLogging()
-    .AddDatabase();
+    .AddDatabase()
+    .AddJwt();
 
 var app = builder.Build();
 
