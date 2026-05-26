@@ -1,13 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontendtest</title>
+    <title>TODO</title>
+    <link rel="stylesheet" href="styles/colors.css" />
+    <link rel="stylesheet" href="styles/style.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#">Головна</a></li>
+          <li><a href="#">Профіль</a></li>
+        </ul>
+        <a href="#" class="logout" onclick="logout()">Вийти</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="add-todo">
+        <input type="text" id="todoTitle" placeholder="Назва задачі" />
+        <textarea
+          id="todoDescription"
+          placeholder="Опис (необов'язково)"
+        ></textarea>
+        <div class="row">
+          <select id="todoPriority">
+            <option value="0">Низький пріоритет</option>
+            <option value="1">Середній пріоритет</option>
+            <option value="2">Високий пріоритет</option>
+          </select>
+          <input type="datetime-local" id="todoDueAt" />
+        </div>
+        <button onclick="addTodo()">Додати</button>
+      </div>
+      <ul id="todoList"></ul>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
