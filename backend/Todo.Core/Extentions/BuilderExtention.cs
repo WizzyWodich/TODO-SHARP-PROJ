@@ -43,8 +43,8 @@ public static class BuilderExtention
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.ApiKey,
-                Name = "Authorization",
-                In = ParameterLocation.Header,
+                Name = "Cookie",
+                In = ParameterLocation.Cookie,
                 Description = "JWT Authorization header"
             });
         });
@@ -60,7 +60,6 @@ public static class BuilderExtention
         builder.Services.AddScoped<ITodoRepository, TodoRepository>();
         builder.Services.AddScoped<CreateTodoHandler>();
         builder.Services.AddScoped<GetAllTodosHandler>();
-        builder.Services.AddScoped<ITodoRepository, TodoRepository>();
         builder.Services.AddScoped<DeleteTodoHandler>();
         builder.Services.AddScoped<CompleteTodoHandler>();
         
@@ -73,7 +72,7 @@ public static class BuilderExtention
         {
             options.AddPolicy(policyName, policy =>
             {
-                policy.WithOrigins("http://localhost:3000")
+                policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                       .AllowCredentials();

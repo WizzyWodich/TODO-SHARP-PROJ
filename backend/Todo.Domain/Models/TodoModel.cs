@@ -5,7 +5,7 @@ public sealed class TodoModel
     public Guid UserId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public  TodoPriority Priority { get; private set; }
+    public TodoPriority Priority { get; private set; }
     public bool IsCompleted => ConfirmedAt.HasValue;
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -28,6 +28,7 @@ public sealed class TodoModel
             Title = title,
             Description = description,
             Priority = priority,
+            DueAt = dueAt,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
