@@ -30,7 +30,7 @@ public sealed class LoginHandler
         {
             HttpOnly = true,
             Secure = false,
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Lax,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         });
 

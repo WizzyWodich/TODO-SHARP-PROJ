@@ -13,6 +13,13 @@ public class GetUsersHandler
     public async Task<IResult> HandleAsync(CancellationToken ct)
     {
         var users = await _userRepository.GetAllUsersAsync(ct);
-        return Results.Ok(users);
+
+        var response = users.Select(u => new GetUsersResponse(
+            Id: u.Id,
+            UserName: u.UserName,
+            Email: u.Email
+        ));
+        
+        return Results.Ok(response);
     }
 }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Todo.Domain.DTOs;
 using Todo.Domain.Models;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.PostgreSQL.Data;
@@ -24,30 +23,39 @@ public sealed class UserRepository : IUserRepository
         await _db.SaveChangesAsync(ct);
     }
 
-    public Task UpdateAsync(UserModel user, CancellationToken ct)
+    public Task UpdatePasswordAsync(Guid userId, string newPasswordHash, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return _db.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s => s.SetProperty(u => u.PasswordHash, newPasswordHash), ct);
+    }
+
+    public Task UpdateEmailAsync(Guid userId, string newEmail, CancellationToken ct)
+    {
+        return _db.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s => s.SetProperty(u => u.Email, newEmail), ct);
     }
 
     public Task DeleteAsync(Guid userId, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return _db.Users
+            .Where(u => u.Id == userId)
+            .ExecuteDeleteAsync(ct);
     }
 
-    public Task<UserDTO?> FindUserByIdAsync(Guid userId, CancellationToken ct)
+    public Task<UserModel?> FindUserByIdAsync(Guid userId, CancellationToken ct)
     {
         return _db.Users
             .Where(u => u.Id == userId)
-            .Select(u => new UserDTO(u.Id, u.UserName, u.Email))
             .FirstOrDefaultAsync(ct);
     }
 
-    public async Task<IEnumerable<UserDTO>> GetAllUsersAsync(CancellationToken ct)
-{
-    return await _db.Users
-        .AsNoTracking()
-        .OrderBy(u => u.UserName)
-        .Select(u => new UserDTO(u.Id, u.UserName, u.Email))
-        .ToListAsync(ct);
-} 
+    public async Task<IEnumerable<UserModel>> GetAllUsersAsync(CancellationToken ct)
+    {
+        return await _db.Users
+            .AsNoTracking()
+            .OrderBy(u => u.UserName)
+            .ToListAsync(ct);
+    }
 }

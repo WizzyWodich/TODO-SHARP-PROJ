@@ -8,9 +8,9 @@ public sealed class GetUsersEndpoint : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapGet("/api/users", async (GetUserHandler handler, ClaimsPrincipal user, CancellationToken ct) =>
+        app.MapGet("/users", async (GetUsersHandler handler, CancellationToken ct) =>
         {
-            return await handler.HandleAsync(user, ct);
+            return await handler.HandleAsync(ct);
         })
         .WithName("GetUsers")
         .WithTags("Users")
