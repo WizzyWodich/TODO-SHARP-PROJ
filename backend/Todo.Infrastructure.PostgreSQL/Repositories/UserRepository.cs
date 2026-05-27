@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Todo.Domain.DTOs;
 using Todo.Domain.Models;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.PostgreSQL.Data;
@@ -21,5 +22,23 @@ public sealed class UserRepository : IUserRepository
     {
         await _db.Users.AddAsync(user, ct);
         await _db.SaveChangesAsync(ct);
+    }
+
+    public Task UpdateAsync(UserModel user, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(Guid userId, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserDTO?> FindUserByIdAsync(Guid userId, CancellationToken ct)
+    {
+        return _db.Users
+            .Where(u => u.Id == userId)
+            .Select(u => new UserDTO(u.UserName, u.Email))
+            .FirstOrDefaultAsync(ct);
     }
 }
