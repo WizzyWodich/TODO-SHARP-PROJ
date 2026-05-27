@@ -5,7 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .AddApplicationServices()
     .AddCorsPolicy("AllowAll")
-    .AddApplicationLogging();
+    .AddApplicationLogging()
+    .AddDatabase()
+    .AddJwt()
+    .AddDependencyInjection();
 
 var app = builder.Build();
 

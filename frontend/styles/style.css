@@ -1,0 +1,284 @@
+@import "./colors.css";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+body {
+  background: var(--bg-soft);
+  color: var(--fg);
+}
+
+header {
+  background: var(--bg-hard);
+}
+
+button {
+  background: var(--bg1);
+  color: var(--fg);
+  border: 1px solid var(--bg3);
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+header nav ul {
+  display: flex;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.logout {
+  position: absolute;
+  right: 20px;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--yellow-light);
+  transition: color 200ms ease-out;
+}
+
+header nav a:hover {
+  color: cadetblue;
+}
+
+main {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.add-todo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: var(--bg4);
+  padding: 16px;
+  gap: 10px;
+}
+
+.add-todo input {
+  background-color: var(--bg2);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  padding: 8px 12px;
+  color: var(--fg);
+  width: 100%;
+  transition: border-color 300ms ease-out;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid var(--fg3);
+}
+
+.add-todo button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: medium;
+  color: var(--fg);
+  width: 100%;
+}
+
+.add-todo textarea {
+  background-color: var(--bg2);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  padding: 8px 12px;
+  color: var(--fg);
+  width: 100%;
+  font-size: 14px;
+  font-family: system-ui;
+  resize: vertical;
+  min-height: 72px;
+  transition: border-color 300ms ease-out;
+}
+
+.add-todo select {
+  background-color: var(--bg2);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  padding: 8px 12px;
+  color: var(--fg);
+  width: 100%;
+  font-size: 14px;
+  transition: border-color 300ms ease-out;
+}
+
+.add-todo select:focus {
+  outline: none;
+  border: 2px solid var(--fg3);
+}
+
+.add-todo select option {
+  background: var(--bg2);
+  color: var(--fg);
+}
+
+.add-todo .row {
+  display: flex;
+  gap: 10px;
+}
+
+.add-todo .row > * {
+  flex: 1;
+}
+
+.add-todo .field-label {
+  font-size: 11px;
+  color: var(--fg3);
+  margin-bottom: 4px;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+.add-todo button {
+  background: var(--yellow-light);
+  color: var(--bg-hard);
+  font-weight: 500;
+}
+
+.add-todo button:hover {
+  background: #d5a820;
+}
+
+button:hover {
+  background: var(--bg2);
+  cursor: pointer;
+}
+
+#todoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 12px 14px;
+  transition: background 200ms;
+}
+
+.todo-item:hover {
+  background: var(--bg1);
+}
+
+.todo-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--yellow-light);
+  cursor: pointer;
+}
+
+.todo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.todo-title {
+  font-size: 15px;
+  color: var(--fg);
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+  color: var(--fg3);
+}
+
+.todo-desc {
+  font-size: 13px;
+  color: var(--fg3);
+}
+
+.todo-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.todo-priority {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.priority-0 {
+  background: var(--bg2);
+  color: var(--fg2);
+}
+.priority-1 {
+  background: #3a3000;
+  color: var(--yellow-light);
+}
+.priority-2 {
+  background: #3a0000;
+  color: var(--red-light);
+}
+
+.todo-due {
+  font-size: 11px;
+  color: var(--fg3);
+}
+
+.todo-delete {
+  background: transparent;
+  border: none;
+  color: var(--fg3);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition:
+    color 200ms,
+    background 200ms;
+  margin-top: 1px;
+}
+
+.todo-delete:hover {
+  color: var(--red-light);
+  background: #3a0000;
+}
+
+.todo-item.completed {
+  opacity: 0.6;
+}
+
+.todo-item.completed .todo-check input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
+.todo-item.completed .todo-body {
+  pointer-events: none;
+}

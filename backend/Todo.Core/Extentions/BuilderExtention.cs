@@ -1,5 +1,18 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Todo.Core.Endpoints.Auth.Login;
+using Todo.Core.Endpoints.Auth.Register;
+using Todo.Core.Endpoints.Todos.Complete;
+using Todo.Core.Endpoints.Todos.Create;
+using Todo.Core.Endpoints.Todos.Delete;
+using Todo.Core.Endpoints.Todos.GetAll;
 using Todo.Core.EndpointSettings;
+using Todo.Domain.Repositories;
+using Todo.Infrastructure.PostgreSQL.Data;
+using Todo.Infrastructure.PostgreSQL.Repositories;
 
 namespace Todo.Core.Extentions;
 
@@ -30,8 +43,8 @@ public static class BuilderExtention
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.ApiKey,
-                Name = "Authorization",
-                In = ParameterLocation.Header,
+                Name = "Cookie",
+                In = ParameterLocation.Cookie,
                 Description = "JWT Authorization header"
             });
         });
@@ -39,15 +52,30 @@ public static class BuilderExtention
         return builder;
     }
 
+    public static WebApplicationBuilder AddDependencyInjection(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<RegisterHandler>();
+        builder.Services.AddScoped<LoginHandler>();
+        builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+        builder.Services.AddScoped<CreateTodoHandler>();
+        builder.Services.AddScoped<GetAllTodosHandler>();
+        builder.Services.AddScoped<DeleteTodoHandler>();
+        builder.Services.AddScoped<CompleteTodoHandler>();
+        
+        return builder;
+    }
+    
     public static WebApplicationBuilder AddCorsPolicy(this WebApplicationBuilder builder, string policyName = "AllowAll")
     {
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(policyName, policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500")
                       .AllowAnyMethod()
-                      .AllowAnyHeader();
+                      .AllowAnyHeader()
+                      .AllowCredentials();
             });
         });
 
@@ -67,6 +95,14 @@ public static class BuilderExtention
         return builder;
     }
 
+
+    public static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        return builder;
+    }
+
     public static IApplicationBuilder MapEndpoints(this WebApplication app)
     {
         var endpointTypes = typeof(Program).Assembly.GetTypes()
@@ -79,5 +115,36 @@ public static class BuilderExtention
         }
 
         return app;
+    }
+
+    public static WebApplicationBuilder AddJwt(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx =>
+                    {
+                        ctx.Token = ctx.Request.Cookies["access_token"];
+                        return Task.CompletedTask;
+                    }
+                };
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!))
+                };
+            });
+
+        builder.Services.AddAuthorization();
+        return builder;
     }
 }
