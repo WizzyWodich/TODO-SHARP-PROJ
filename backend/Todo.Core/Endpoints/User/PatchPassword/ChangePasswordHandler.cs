@@ -15,19 +15,19 @@ public class ChangePasswordHandler
 
     public async Task<IResult> HandleAsync(ChangePasswordRequest request, ClaimsPrincipal user, CancellationToken ct)
     {
-        var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        if (userId == Guid.Empty)
-            return Results.Forbid();
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Results.Unauthorized();
         
-        var currentUser = await _userRepository.FindUserByIdAsync(userId, ct);
+        var currentUser = await _userRepository.GetByIdAsync(userId, ct);
         if (currentUser is null)
             return Results.NotFound();
 
         if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, currentUser.PasswordHash))
             return Results.BadRequest(new { error = "Current password is incorrect." });
         
-        if (BCrypt.Net.BCrypt.Verify(request.NewPassword, currentUser.PasswordHash))
+        if (request.CurrentPassword == request.NewPassword)
             return Results.BadRequest(new { error = "New password must be different from current password." });
         
         var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);

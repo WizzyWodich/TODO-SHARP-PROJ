@@ -12,7 +12,7 @@ public class GetUsersHandler
     }
     public async Task<IResult> HandleAsync(CancellationToken ct)
     {
-        var users = await _userRepository.GetAllUsersAsync(ct);
+        var users = await _userRepository.GetAllAsync(ct);
 
         var response = users.Select(u => new GetUsersResponse(
             Id: u.Id,

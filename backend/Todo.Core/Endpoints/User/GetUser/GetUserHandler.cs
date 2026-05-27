@@ -15,7 +15,7 @@ public class GetUserHandler
     public async Task<IResult> HandleAsync(ClaimsPrincipal user, CancellationToken ct)
     {
         var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var userModel = await _userRepository.FindUserByIdAsync(userId, ct);
+        var userModel = await _userRepository.GetByIdAsync(userId, ct);
 
         if (userModel is null)
             return Results.NotFound();

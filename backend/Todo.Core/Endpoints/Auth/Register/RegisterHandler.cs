@@ -11,7 +11,7 @@ public sealed class RegisterHandler
 
     public async Task<IResult> HandleAsync(RegisterRequest request, CancellationToken ct)
     {
-        if (await _users.ExistsAsync(request.UserName, ct))
+        if (await _users.GetForAuthenticationAsync(request.UserName, ct) is not null)
             return Results.Conflict("Username already taken");
 
         var hash = BCrypt.Net.BCrypt.HashPassword(request.Password);

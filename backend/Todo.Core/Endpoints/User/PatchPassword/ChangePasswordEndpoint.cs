@@ -7,7 +7,7 @@ public sealed class ChangePasswordEndpoint : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPatch("/users/{id:guid}/password", async (
+        app.MapPatch("/users/password-change", async (
             ChangePasswordRequest request,
             ChangePasswordHandler handler,
             ClaimsPrincipal user,
