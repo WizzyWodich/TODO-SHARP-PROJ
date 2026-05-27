@@ -15,7 +15,7 @@ public sealed class UserRepository : IUserRepository
     public Task<bool> ExistsAsync(string userName, CancellationToken ct)
         => _db.Users.AnyAsync(u => u.UserName == userName, ct);
 
-    public Task<UserModel?> FindByUserNameAsync(string userName, CancellationToken ct)
+    public Task<UserModel?> GetForAuthenticationAsync(string userName, CancellationToken ct)
         => _db.Users.FirstOrDefaultAsync(u => u.UserName == userName, ct);
 
     public async Task AddAsync(UserModel user, CancellationToken ct)
@@ -38,7 +38,16 @@ public sealed class UserRepository : IUserRepository
     {
         return _db.Users
             .Where(u => u.Id == userId)
-            .Select(u => new UserDTO(u.UserName, u.Email))
+            .Select(u => new UserDTO(u.Id, u.UserName, u.Email))
             .FirstOrDefaultAsync(ct);
     }
+
+    public async Task<IEnumerable<UserDTO>> GetAllUsersAsync(CancellationToken ct)
+{
+    return await _db.Users
+        .AsNoTracking()
+        .OrderBy(u => u.UserName)
+        .Select(u => new UserDTO(u.Id, u.UserName, u.Email))
+        .ToListAsync(ct);
+} 
 }

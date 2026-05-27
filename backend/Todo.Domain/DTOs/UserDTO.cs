@@ -1,3 +1,3 @@
 namespace Todo.Domain.DTOs;
 
-public record UserDTO(string UserName, string? Email);
+public record UserDTO(Guid Id, string UserName, string? Email);
