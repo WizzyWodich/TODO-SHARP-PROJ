@@ -19,7 +19,7 @@ public sealed class LoginHandler
 
     public async Task<IResult> HandleAsync(LoginRequest request, HttpContext http, CancellationToken ct)
     {
-        var user = await _users.FindByUserNameAsync(request.UserName, ct);
+        var user = await _users.GetForAuthenticationAsync(request.UserName, ct);
 
         if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             return Results.Unauthorized();

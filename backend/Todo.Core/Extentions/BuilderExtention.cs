@@ -10,6 +10,7 @@ using Todo.Core.Endpoints.Todos.Create;
 using Todo.Core.Endpoints.Todos.Delete;
 using Todo.Core.Endpoints.Todos.GetAll;
 using Todo.Core.Endpoints.User.GetUser;
+using Todo.Core.Endpoints.User.GetUsers;
 using Todo.Core.EndpointSettings;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.PostgreSQL.Data;
@@ -59,6 +60,7 @@ public static class BuilderExtention
         builder.Services.AddScoped<RegisterHandler>();
         builder.Services.AddScoped<LoginHandler>();
         builder.Services.AddScoped<GetUserHandler>();
+        builder.Services.AddScoped<GetUsersHandler>();
         builder.Services.AddScoped<ITodoRepository, TodoRepository>();
         builder.Services.AddScoped<CreateTodoHandler>();
         builder.Services.AddScoped<GetAllTodosHandler>();
