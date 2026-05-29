@@ -21,6 +21,6 @@ public sealed class DeleteTodoHandler
             return Results.Forbid();
 
         await _todos.DeleteAsync(todo, ct);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

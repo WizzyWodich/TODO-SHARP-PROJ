@@ -22,6 +22,6 @@ public sealed class CompleteTodoHandler
 
         todo.Complete();
         await _todos.UpdateAsync(todo, ct);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

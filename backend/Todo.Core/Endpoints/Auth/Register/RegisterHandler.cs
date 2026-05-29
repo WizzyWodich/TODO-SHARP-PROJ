@@ -18,6 +18,6 @@ public sealed class RegisterHandler
         var user = UserModel.Create(request.UserName, hash, request.Email);
         await _users.AddAsync(user, ct);
 
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

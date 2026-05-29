@@ -25,6 +25,6 @@ public sealed class CreateTodoHandler
             request.DueAt);
 
         await _todos.AddAsync(todo, ct);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

@@ -34,7 +34,7 @@ public sealed class LoginHandler
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         });
 
-        return Results.Ok();
+        return Results.NoContent();
     }
 
     private string GenerateJwt(Todo.Domain.Models.UserModel user)
