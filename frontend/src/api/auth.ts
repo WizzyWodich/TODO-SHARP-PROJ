@@ -1,5 +1,5 @@
 import { apiRequest } from "./api";
-import type { UserLogin } from "../models/userLogin";
+import type { UserLogin } from "../interfaces/userLoginInterface";
 
 export async function login(form: UserLogin): Promise<void> {
     await apiRequest("/auth/login", {

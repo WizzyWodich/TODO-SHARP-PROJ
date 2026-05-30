@@ -1,18 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Layout from "./layout/Layout";
-import { Home } from "./pages/Home";
+import { HomePage } from "./pages/Home";
 import ProtectedLayout from "./layout/ProtectedLayout";
+import { AnimatePresence } from "framer-motion";
 
 export default function App() {
     return (
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedLayout/>}>
-              <Route element={<Layout />}>            
-                <Route path="/" element={<Home />} />
-              </Route>
-            </Route>
-        </Routes>
+        <AnimatePresence mode="wait">
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route element={<ProtectedLayout/>}>
+                    <Route path="/" element={<HomePage />} />
+                </Route>
+            </Routes>
+        </AnimatePresence>
     );
 }

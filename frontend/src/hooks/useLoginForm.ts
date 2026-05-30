@@ -1,7 +1,9 @@
 import { useState } from "react";
-import type { UserLogin } from "../models/userLogin";
+import type { UserLogin } from "../interfaces/userLoginInterface";
 import { login } from "../api/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getMe } from "../api/user";
+import useAuth from "./useAuth";
 
 export function useLoginForm() {
 
@@ -11,6 +13,8 @@ export function useLoginForm() {
         username: "",
         password: "",
     });
+
+    const { setUser } = useAuth();
 
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -26,6 +30,8 @@ export function useLoginForm() {
 
         try {
             await login(form);
+            const user = await getMe();
+            setUser(user);
             navigate("/");
         } catch (err) {
             console.log("error", err);
