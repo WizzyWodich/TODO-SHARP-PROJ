@@ -7,7 +7,7 @@ public class GetUserEndpoint : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapGet("/users/{id}", async (GetUserHandler handler, ClaimsPrincipal user, CancellationToken ct) =>
+        app.MapGet("/user/me", async (GetUserHandler handler, ClaimsPrincipal user, CancellationToken ct) =>
         {
             return await handler.HandleAsync(user, ct);
         })

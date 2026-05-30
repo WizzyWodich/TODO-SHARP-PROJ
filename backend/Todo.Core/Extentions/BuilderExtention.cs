@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,7 +24,15 @@ public static class BuilderExtention
 {
     public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()    
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
         {
