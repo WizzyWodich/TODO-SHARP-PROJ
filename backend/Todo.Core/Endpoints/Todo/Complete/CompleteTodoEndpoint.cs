@@ -8,7 +8,7 @@ public sealed class CompleteTodoEndpoint : IEndpoint
     public void MapEndpoint(WebApplication app)
     {
         app.MapPatch("/todos/{id:guid}/complete", async (
-            Guid id,
+            int id,
             CompleteTodoHandler handler,
             ClaimsPrincipal user,
             CancellationToken ct) => await handler.HandleAsync(id, user, ct))

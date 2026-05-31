@@ -1,8 +1,8 @@
 namespace Todo.Domain.Models;
 public sealed class TodoModel
 {
-    public Guid Id { get; private set; }
-    public Guid UserId { get; private set; }
+    public int Id { get; private set; }
+    public int UserId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public TodoPriority Priority { get; private set; }
@@ -14,16 +14,15 @@ public sealed class TodoModel
 
     private TodoModel() { }
     
-    public static TodoModel Create(Guid userId, string title, string description, TodoPriority priority = TodoPriority.Low, DateTime? dueAt = null)
+    public static TodoModel Create(int userId, string title, string description, TodoPriority priority = TodoPriority.Low, DateTime? dueAt = null)
     {
-        if (userId == Guid.Empty) 
+        if (userId <= 0) 
             throw new ArgumentException("UserId cannot be empty", nameof(userId));
         if (string.IsNullOrWhiteSpace(title)) 
             throw new ArgumentException("Title cannot be empty", nameof(title));
         
         return new TodoModel
         {
-            Id = Guid.NewGuid(),
             UserId = userId,
             Title = title,
             Description = description,

@@ -15,7 +15,7 @@ public sealed class CreateTodoHandler
         ClaimsPrincipal user,
         CancellationToken ct)
     {
-        var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userId = int.Parse(user.FindFirstValue("userId")!);
 
         var todo = TodoModel.Create(
             userId,

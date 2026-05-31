@@ -44,8 +44,9 @@ public sealed class LoginHandler
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.PublicId.ToString()),
             new Claim(ClaimTypes.Name, user.UserName),
+            new Claim("userId", user.Id.ToString()),
         };
 
         var token = new JwtSecurityToken(

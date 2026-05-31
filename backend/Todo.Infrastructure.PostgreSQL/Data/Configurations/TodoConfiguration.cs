@@ -10,6 +10,7 @@ public sealed class TodoConfiguration : IEntityTypeConfiguration<TodoModel>
     {
         builder.ToTable("todos");
         builder.HasKey(t => t.Id);
+        builder.Property(t => t.Id).ValueGeneratedOnAdd();
         builder.Property(t => t.Title).HasMaxLength(200).IsRequired();
         builder.Property(t => t.Description).HasMaxLength(2000);
         builder.Property(t => t.CreatedAt).IsRequired();

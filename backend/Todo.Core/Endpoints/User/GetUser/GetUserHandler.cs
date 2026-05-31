@@ -14,14 +14,14 @@ public class GetUserHandler
 
     public async Task<IResult> HandleAsync(ClaimsPrincipal user, CancellationToken ct)
     {
-        var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userId = int.Parse(user.FindFirstValue("userId")!);
         var userModel = await _userRepository.GetByIdAsync(userId, ct);
 
         if (userModel is null)
             return Results.NotFound();
 
         var response = new GetUserResponse(
-            Id: userModel.Id,
+            Id: userModel.PublicId,
             UserName: userModel.UserName,
             Email: userModel.Email
         );

@@ -18,7 +18,7 @@ public sealed class TodoRepository : ITodoRepository
     }
 
     public async Task<(IReadOnlyList<TodoModel> Items, int Total)> GetByUserIdAsync(
-        Guid userId, int page, int pageSize, CancellationToken ct)
+        int userId, int page, int pageSize, CancellationToken ct)
     {
         var query = _db.Todos
             .Where(t => t.UserId == userId)
@@ -34,7 +34,7 @@ public sealed class TodoRepository : ITodoRepository
         return (items, total);
     }
     
-    public async Task<TodoModel?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<TodoModel?> GetByIdAsync(int id, CancellationToken ct)
         => await _db.Todos.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id, ct);
 
     public async Task UpdateAsync(TodoModel todo, CancellationToken ct)

@@ -9,9 +9,9 @@ public sealed class DeleteTodoHandler
 
     public DeleteTodoHandler(ITodoRepository todos) => _todos = todos;
 
-    public async Task<IResult> HandleAsync(Guid id, ClaimsPrincipal user, CancellationToken ct)
+    public async Task<IResult> HandleAsync(int id, ClaimsPrincipal user, CancellationToken ct)
     {
-        var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userId = int.Parse(user.FindFirstValue("userId")!);
         var todo = await _todos.GetByIdAsync(id, ct);
 
         if (todo is null)

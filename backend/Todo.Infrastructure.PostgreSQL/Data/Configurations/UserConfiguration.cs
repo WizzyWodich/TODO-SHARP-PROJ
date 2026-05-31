@@ -10,6 +10,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<UserModel>
     {
         builder.ToTable("users");
         builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id).ValueGeneratedOnAdd();
         builder.Property(u => u.UserName).HasMaxLength(50).IsRequired();
         builder.HasIndex(u => u.UserName).IsUnique();
         builder.Property(u => u.Email).HasMaxLength(254);

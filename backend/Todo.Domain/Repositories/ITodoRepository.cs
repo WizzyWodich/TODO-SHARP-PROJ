@@ -6,8 +6,8 @@ public interface ITodoRepository
 {
     Task AddAsync(TodoModel todo, CancellationToken ct);
     Task<(IReadOnlyList<TodoModel> Items, int Total)> GetByUserIdAsync(
-        Guid userId, int page, int pageSize, CancellationToken ct);
-    Task<TodoModel?> GetByIdAsync(Guid id, CancellationToken ct);
+        int userId, int page, int pageSize, CancellationToken ct);
+    Task<TodoModel?> GetByIdAsync(int id, CancellationToken ct);
     Task UpdateAsync(TodoModel todo, CancellationToken ct);
     Task DeleteAsync(TodoModel todo, CancellationToken ct);
 }

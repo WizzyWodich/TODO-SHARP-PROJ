@@ -15,7 +15,7 @@ public class GetUsersHandler
         var users = await _userRepository.GetAllAsync(ct);
 
         var response = users.Select(u => new GetUsersResponse(
-            Id: u.Id,
+            Id: u.PublicId,
             UserName: u.UserName,
             Email: u.Email
         ));

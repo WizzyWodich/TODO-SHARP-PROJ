@@ -12,7 +12,7 @@ public sealed class GetAllTodosHandler
 
     public async Task<IResult> HandleAsync(GetAllTodosQuery query, ClaimsPrincipal user, CancellationToken ct)
     {
-        var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userId = int.Parse(user.FindFirstValue("userId")!);
         var (todos, total) = await _todos.GetByUserIdAsync(userId, query.Page, query.PageSize, ct);
 
         return Results.Ok(new

@@ -16,7 +16,7 @@ public sealed class UserRepository : IUserRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.UserName == userName, ct);
 
-    public Task<UserModel?> GetByIdAsync(Guid userId, CancellationToken ct)
+    public Task<UserModel?> GetByIdAsync(int userId, CancellationToken ct)
         =>   _db.Users
             .AsNoTracking()
             .Where(u => u.Id == userId)
@@ -29,26 +29,30 @@ public sealed class UserRepository : IUserRepository
             .ToListAsync(ct);
 
 
-    public Task UpdatePasswordAsync(Guid userId, string newPasswordHash, CancellationToken ct)
+    public Task UpdatePasswordAsync(int userId, string newPasswordHash, CancellationToken ct)
         => _db.Users
             .Where(u => u.Id == userId)
             .ExecuteUpdateAsync(s => s.SetProperty(u => u.PasswordHash, newPasswordHash), ct);
 
-    public Task UpdateEmailAsync(Guid userId, string newEmail, CancellationToken ct)
+    public Task UpdateEmailAsync(int userId, string newEmail, CancellationToken ct)
         => _db.Users
             .Where(u => u.Id == userId)
             .ExecuteUpdateAsync(s => s.SetProperty(u => u.Email, newEmail), ct);
 
-    public Task DeleteAsync(Guid userId, CancellationToken ct)
+    public Task DeleteAsync(int userId, CancellationToken ct)
         => _db.Users
             .Where(u => u.Id == userId)
             .ExecuteDeleteAsync(ct);
 
-    public async Task<Guid> AddAsync(UserModel user, CancellationToken ct)
+    public async Task<int> AddAsync(UserModel user, CancellationToken ct)
     {
         await _db.Users.AddAsync(user, ct);
         await _db.SaveChangesAsync(ct);
         return user.Id;
     }
 
+    public Task<UserModel?> GetByPublicIdAsync(Guid publicId, CancellationToken ct)
+        => _db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.PublicId == publicId, ct);
 }

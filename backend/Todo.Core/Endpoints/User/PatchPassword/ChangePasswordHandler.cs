@@ -17,7 +17,7 @@ public class ChangePasswordHandler
     {
         var userIdString = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
             return Results.Unauthorized();
         
         var currentUser = await _userRepository.GetByIdAsync(userId, ct);
