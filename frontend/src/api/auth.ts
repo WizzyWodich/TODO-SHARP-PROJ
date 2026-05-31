@@ -22,3 +22,4 @@ export async function checkAuth(): Promise<boolean> {
         return false;
     }
 }
+
