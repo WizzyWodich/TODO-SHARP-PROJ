@@ -8,9 +8,10 @@ public sealed class GetAllTodosEndpoint : IEndpoint
     public void MapEndpoint(WebApplication app)
     {
         app.MapGet("/todos", async (
+            [AsParameters] GetAllTodosQuery query,
             GetAllTodosHandler handler,
             ClaimsPrincipal user,
-            CancellationToken ct) => await handler.HandleAsync(user, ct))
+            CancellationToken ct) => await handler.HandleAsync(query, user, ct))
             .WithTags("Todos")
             .RequireAuthorization();
     }

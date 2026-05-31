@@ -12,10 +12,13 @@ public sealed class UserRepository : IUserRepository
     public UserRepository(AppDbContext db) => _db = db;
 
     public Task<UserModel?> GetForAuthenticationAsync(string userName, CancellationToken ct)
-        => _db.Users.FirstOrDefaultAsync(u => u.UserName == userName, ct);
+        => _db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.UserName == userName, ct);
 
     public Task<UserModel?> GetByIdAsync(Guid userId, CancellationToken ct)
         =>   _db.Users
+            .AsNoTracking()
             .Where(u => u.Id == userId)
             .FirstOrDefaultAsync(ct);
 

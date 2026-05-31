@@ -20,5 +20,7 @@ public sealed class TodoConfiguration : IEntityTypeConfiguration<TodoModel>
         builder.HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(t => t.UserId);
+
+        builder.HasIndex(t => t.UserId);
     }
 }

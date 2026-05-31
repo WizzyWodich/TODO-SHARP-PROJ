@@ -10,10 +10,18 @@ public sealed class GetAllTodosHandler
 
     public GetAllTodosHandler(ITodoRepository todos) => _todos = todos;
 
-    public async Task<IResult> HandleAsync(ClaimsPrincipal user, CancellationToken ct)
+    public async Task<IResult> HandleAsync(GetAllTodosQuery query, ClaimsPrincipal user, CancellationToken ct)
     {
         var userId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var todos = await _todos.GetByUserIdAsync(userId, ct);
-        return Results.Ok(todos);
+        var (todos, total) = await _todos.GetByUserIdAsync(userId, query.Page, query.PageSize, ct);
+
+        return Results.Ok(new
+        {
+            data = todos,
+            page = query.Page,
+            pageSize = query.PageSize,
+            total,
+            totalPages = (int)Math.Ceiling((double)total / query.PageSize)
+        });
     }
 }
