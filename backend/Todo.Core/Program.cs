@@ -8,7 +8,8 @@ builder
     .AddApplicationLogging()
     .AddDatabase()
     .AddJwt()
-    .AddDependencyInjection();
+    .AddDependencyInjection()
+    .AddRedis();
 
 var app = builder.Build();
 
