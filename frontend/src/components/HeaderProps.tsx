@@ -2,10 +2,9 @@ import { Plus } from "lucide-react";
 
 interface HeaderProps {
     username?: string;
-    onAddTask: () => void;
 }
 
-export default function Header({ username, onAddTask }: HeaderProps) {
+export default function Header({ username } : HeaderProps) {
     return (
         <div className="flex items-center justify-between mb-6">
             <div>
@@ -17,7 +16,6 @@ export default function Header({ username, onAddTask }: HeaderProps) {
                 </p>
             </div>
             <button
-                onClick={onAddTask}
                 className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-black text-sm font-medium px-4 py-2 rounded-xl transition-all"
             >
                 <Plus size={16} />

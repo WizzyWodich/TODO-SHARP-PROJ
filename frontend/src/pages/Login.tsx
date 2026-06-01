@@ -15,7 +15,7 @@ export default function Login() {
                     </div>
 
                     <h2 className="text-[22px] font-semibold text-white text-center mb-1">
-                        Вітаємо назад
+                        Вхід
                     </h2>
                     <p className="text-sm text-zinc-500 text-center mb-7">
                         Увійдіть у свій акаунт

@@ -1,16 +1,17 @@
-import { Flame } from "lucide-react";
 
 export default function Statistic() {
     return (
-        <><div className="bg-[#20211f] border border-zinc-800 rounded-2xl p-4">
-            <p className="text-xs text-zinc-400 mb-1">
-                Всього завдань
-            </p>
+        <>
+            <div className="bg-[#20211f] border border-zinc-800 rounded-2xl p-4">
+                <p className="text-xs text-zinc-400 mb-1">
+                    Всього завдань
+                </p>
 
-            <h2 className="text-2xl font-bold">
-                12
-            </h2>
-        </div><div className="bg-[#20211f] border border-zinc-800 rounded-2xl p-4">
+                <h2 className="text-2xl font-bold">
+                    12
+                </h2>
+            </div>
+            <div className="bg-[#20211f] border border-zinc-800 rounded-2xl p-4">
                 <p className="text-xs text-zinc-400 mb-1">
                     Виконано
                 </p>
@@ -18,17 +19,7 @@ export default function Statistic() {
                 <h2 className="text-2xl font-bold text-emerald-400">
                     8
                 </h2>
-            </div><div className="bg-[#20211f] border border-zinc-800 rounded-2xl p-4">
-                <div className="flex items-center gap-1 text-orange-400 mb-1">
-                    <Flame size={14} />
-                    <span className="text-xs">
-                        Серія
-                    </span>
-                </div>
-
-                <h2 className="text-2xl font-bold">
-                    5d
-                </h2>
-            </div></>
+            </div>
+        </>
     );
 }
