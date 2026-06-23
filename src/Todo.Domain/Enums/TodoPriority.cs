@@ -1,4 +1,4 @@
-namespace Todo.Domain;
+namespace Todo.Domain.Enums;
 
 public enum TodoPriority
 {

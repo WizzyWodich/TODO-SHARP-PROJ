@@ -1,13 +1,13 @@
 using System.Security.Claims;
 using Todo.Core.EndpointSettings;
 
-namespace Todo.Core.Endpoints.Todos.Complete;
+namespace Todo.Core.Endpoints.Todo.Complete;
 
 public sealed class CompleteTodoEndpoint : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPatch("/todos/{id:guid}/complete", async (
+        app.MapPatch("/todos/{id:int}/complete", async (
             int id,
             CompleteTodoHandler handler,
             ClaimsPrincipal user,

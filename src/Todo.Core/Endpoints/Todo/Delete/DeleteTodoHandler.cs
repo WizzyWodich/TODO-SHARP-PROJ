@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Todo.Domain.Repositories;
 
-namespace Todo.Core.Endpoints.Todos.Delete;
+namespace Todo.Core.Endpoints.Todo.Delete;
 
 public sealed class DeleteTodoHandler
 {

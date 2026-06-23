@@ -13,10 +13,7 @@ public sealed class AuthMe : IEndpoint
             if (user?.Identity?.IsAuthenticated != true)
                 return Results.Unauthorized();
 
-            return Results.Ok(new
-            {
-                name = user.Identity?.Name
-            });
+           return Results.Ok(new { authenticated = true });
 
         }).WithTags("Auth");
     }

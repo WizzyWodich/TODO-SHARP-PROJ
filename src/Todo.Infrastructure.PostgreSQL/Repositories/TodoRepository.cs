@@ -48,4 +48,11 @@ public sealed class TodoRepository : ITodoRepository
         _db.Todos.Remove(todo);
         await _db.SaveChangesAsync(ct);
     }
+
+    public async Task DeleteAllByUserIdAsync(int userId, CancellationToken ct)
+        => await _db.Todos
+            .Where(
+            t => t.UserId == userId)
+            .ExecuteDeleteAsync(ct);
+    
 }

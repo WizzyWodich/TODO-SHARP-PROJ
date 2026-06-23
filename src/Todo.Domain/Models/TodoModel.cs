@@ -1,3 +1,5 @@
+using Todo.Domain.Enums;
+
 namespace Todo.Domain.Models;
 public sealed class TodoModel
 {
@@ -50,6 +52,18 @@ public sealed class TodoModel
     public void SetDueDate(DateTime? dueAt)
     {
         DueAt = dueAt;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateDescription(string description)
+    {
+        Description = description;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdatePriority(TodoPriority priority)
+    {
+        Priority = priority;
         UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -4,7 +4,7 @@ export
 PROJECT_ROOT := $(shell pwd)
 
 run:
-	@cd backend && dotnet run --project Todo.Core/Todo.Core.csproj
+	@cd src && dotnet run --project Todo.Core/Todo.Core.csproj
 
 env-up:
 	@docker compose up -d
@@ -65,3 +65,10 @@ k6-test2:
 clean:
 	@rm -rf reports/*
 	@echo "Reports cleaned"
+		--project src/Todo.Infrastructure.PostgreSQL \
+		--startup-project src/Todo.Core
+		
+db-update:
+	@dotnet ef database update \
+		--project src/Todo.Infrastructure.PostgreSQL \
+		--startup-project src/Todo.Core

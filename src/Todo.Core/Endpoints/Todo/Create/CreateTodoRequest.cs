@@ -1,6 +1,6 @@
-using Todo.Domain;
+using Todo.Domain.Enums;
 
-namespace Todo.Core.Endpoints.Todos.Create;
+namespace Todo.Core.Endpoints.Todo.Create;
 
 public record CreateTodoRequest(
     string Title,

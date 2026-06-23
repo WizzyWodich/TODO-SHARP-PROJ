@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Todo.Domain.Models;
 using Todo.Domain.Repositories;
 
-namespace Todo.Core.Endpoints.Todos.Create;
+namespace Todo.Core.Endpoints.Todo.Create;
 
 public sealed class CreateTodoHandler
 {

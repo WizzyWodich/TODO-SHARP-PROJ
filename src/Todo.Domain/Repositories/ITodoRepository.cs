@@ -10,4 +10,5 @@ public interface ITodoRepository
     Task<TodoModel?> GetByIdAsync(int id, CancellationToken ct);
     Task UpdateAsync(TodoModel todo, CancellationToken ct);
     Task DeleteAsync(TodoModel todo, CancellationToken ct);
+    Task DeleteAllByUserIdAsync(int userId, CancellationToken ct);
 }

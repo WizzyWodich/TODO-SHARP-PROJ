@@ -55,4 +55,10 @@ public sealed class UserRepository : IUserRepository
         => _db.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.PublicId == publicId, ct);
+
+    public async Task<UserModel?> GetByEmailAsync(string email, CancellationToken ct)
+    {
+        return await _db.Users
+            .FirstOrDefaultAsync(u => u.Email == email, ct);
+    }
 }

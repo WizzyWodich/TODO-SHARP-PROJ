@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Todo.Core.EndpointSettings;
 
-namespace Todo.Core.Endpoints.Todos.GetAll;
+namespace Todo.Core.Endpoints.Todo.GetAll;
 
 public sealed class GetAllTodosEndpoint : IEndpoint
 {

@@ -6,10 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Todo.Core.Endpoints.Auth.Login;
 using Todo.Core.Endpoints.Auth.Register;
-using Todo.Core.Endpoints.Todos.Complete;
-using Todo.Core.Endpoints.Todos.Create;
-using Todo.Core.Endpoints.Todos.Delete;
-using Todo.Core.Endpoints.Todos.GetAll;
+using Todo.Core.Endpoints.Statistic;
+using Todo.Core.Endpoints.Todo.Complete;
+using Todo.Core.Endpoints.Todo.Create;
+using Todo.Core.Endpoints.Todo.Delete;
+using Todo.Core.Endpoints.Todo.GetAll;
+using Todo.Core.Endpoints.Todo.Update;
 using Todo.Core.Endpoints.User.GetUser;
 using Todo.Core.Endpoints.User.GetUsers;
 using Todo.Core.Endpoints.User.PatchPassword;
@@ -77,21 +79,31 @@ public static class BuilderExtention
         builder.Services.AddScoped<GetUsersHandler>();
         builder.Services.AddScoped<ChangePasswordHandler>();
         builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IStatisticRepository, StatisticRepository>();
         builder.Services.AddScoped<CreateTodoHandler>();
         builder.Services.AddScoped<GetAllTodosHandler>();
         builder.Services.AddScoped<DeleteTodoHandler>();
         builder.Services.AddScoped<CompleteTodoHandler>();
+        builder.Services.AddScoped<GetStatsHandler>();
+        builder.Services.AddScoped<DeleteTodoAllHandler>();
+        builder.Services.AddScoped<UpdateTodoHandler>();
+        
         
         return builder;
     }
-    
+     
     public static WebApplicationBuilder AddCorsPolicy(this WebApplicationBuilder builder, string policyName = "AllowAll")
     {
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(policyName, policy =>
             {
-                policy.WithOrigins("http://localhost:5500", "http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5500")
+                policy.WithOrigins("http://localhost:5500", 
+                 "http://localhost:5173",
+                 "http://localhost:5174", 
+                 "http://localhost:5074",
+                 "http://127.0.0.1:5500")
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                       .AllowCredentials();
@@ -164,15 +176,6 @@ public static class BuilderExtention
             });
 
         builder.Services.AddAuthorization();
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddRedis(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = builder.Configuration["Redis:Connection"];
-        });
         return builder;
     }
 }

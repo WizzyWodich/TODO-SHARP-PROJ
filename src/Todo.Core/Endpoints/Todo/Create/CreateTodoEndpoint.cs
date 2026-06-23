@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Todo.Core.EndpointSettings;
 
-namespace Todo.Core.Endpoints.Todos.Create;
+namespace Todo.Core.Endpoints.Todo.Create;
 
 public sealed class CreateTodoEndpoint : IEndpoint
 {

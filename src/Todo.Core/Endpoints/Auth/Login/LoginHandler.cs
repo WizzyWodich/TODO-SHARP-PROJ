@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Todo.Domain.Models;
 using Todo.Domain.Repositories;
 
 namespace Todo.Core.Endpoints.Auth.Login;
@@ -37,7 +38,7 @@ public sealed class LoginHandler
         return Results.NoContent();
     }
 
-    private string GenerateJwt(Todo.Domain.Models.UserModel user)
+    private string GenerateJwt(UserModel user)
     {
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_config["Jwt:Secret"]!));

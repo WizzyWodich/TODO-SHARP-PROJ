@@ -3,15 +3,14 @@ using Todo.Core.EndpointSettings;
 
 namespace Todo.Core.Endpoints.Todo.Delete;
 
-public sealed class DeleteTodoEndpoint : IEndpoint
+public sealed class DeleteTodoAllEndpoint : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapDelete("/todos/{id:int}", async (
-            int id,
-            DeleteTodoHandler handler,
+        app.MapDelete("/todos/all", async (
+            DeleteTodoAllHandler handler,
             ClaimsPrincipal user,
-            CancellationToken ct) => await handler.HandleAsync(id, user, ct))
+            CancellationToken ct) => await handler.HandleAsync(user, ct))
             .WithTags("Todos")
             .RequireAuthorization();
     }

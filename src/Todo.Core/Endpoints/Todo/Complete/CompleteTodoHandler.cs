@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Todo.Domain.Repositories;
 
-namespace Todo.Core.Endpoints.Todos.Complete;
+namespace Todo.Core.Endpoints.Todo.Complete;
 
 public sealed class CompleteTodoHandler
 {
@@ -20,8 +20,15 @@ public sealed class CompleteTodoHandler
         if (todo.UserId != userId)
             return Results.Forbid();
 
-        todo.Complete();
-        await _todos.UpdateAsync(todo, ct);
-        return Results.NoContent();
+       try
+        {
+            todo.Complete();
+            await _todos.UpdateAsync(todo, ct);
+            return Results.NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Results.BadRequest(new { message = ex.Message });
+        }
     }
 }

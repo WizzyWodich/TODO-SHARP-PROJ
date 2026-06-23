@@ -14,6 +14,9 @@ public sealed class RegisterHandler
         if (await _users.GetForAuthenticationAsync(request.UserName, ct) is not null)
             return Results.Conflict("Username already taken");
 
+        if (await _users.GetByEmailAsync(request.Email, ct) is not null)
+            return Results.Conflict("Email already taken");
+
         var hash = BCrypt.Net.BCrypt.HashPassword(request.Password, workFactor: 10);
         var user = UserModel.Create(request.UserName, hash, request.Email);
         await _users.AddAsync(user, ct);
