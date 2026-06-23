@@ -11,3 +11,10 @@ services:
     volumes:
       - ${PROJECT_ROOT}/out/pgdata:/var/lib/postgresql/data
     restart: always
+  
+  todo-redis:
+    image: redis:7-alpine
+    container_name: todo-redis
+    ports:
+      - "6379:6379"
+    restart: always
